@@ -1,0 +1,16 @@
+@import 'scss-reset/reset';
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+
+:root {
+  font-family: montserrat;
+  --primary-100: #FF5E78;
+  --primary-200: #dd3e5d;
+  --primary-300: #900025;
+  --accent-100: #FFC2D0;
+  --accent-200: #996371;
+  --text-100: #FFFFFF;
+  --text-200: #e0e0e0;
+  --bg-100: #FFD3E0;
+  --bg-200: #f5c9d6;
+  --bg-300: #cba2ae;
+}
