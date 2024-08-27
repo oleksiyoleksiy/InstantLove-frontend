@@ -5,11 +5,15 @@ import { RootState } from '../../store'
 
 
 function Liked() {
-  const liked = useSelector((s: RootState) => s.match.liked)
+  const liked: Item[] = useSelector((s: RootState) => s.match.liked)
 
   return (
     <div className={styles.container}>
-      
+      {liked.map((item: Item, index: number) => (
+        <div className={styles.card}>
+          
+        </div>
+      ))}
     </div>
   )
 }
