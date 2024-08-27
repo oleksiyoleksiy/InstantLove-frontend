@@ -7,8 +7,11 @@ import './index.scss'
 function NavigationPanel() {
   return (
     <nav className={styles.container}>
-      <NavLink active="active" className={styles.link}>
+      <NavLink to="/" active className={styles.link}>
         <ArrowThroughHeartFill className={styles.link__icon} />
+      </NavLink>
+      <NavLink to="/liked" active className={styles.link}>
+        <HeartFill className={styles.link__icon} />
       </NavLink>
     </nav>
   )

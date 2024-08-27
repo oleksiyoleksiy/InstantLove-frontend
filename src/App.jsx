@@ -5,6 +5,7 @@ import styles from './App.module.scss'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import NavigationPanel from './components/NavigationPanel'
+import Liked from './pages/Liked'
 
 const tele = window.Telegram.WebApp
 
@@ -18,6 +19,7 @@ function App() {
     <div className={styles.container}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/liked" element={<Liked />} />
       </Routes>
       <NavigationPanel />
     </div>

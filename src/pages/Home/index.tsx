@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from '@reduxjs/toolkit'
 import { matchActions } from '../../store/matchSlice'
 import { RootState } from '../../store'
+import Card from '../../components/Card'
 
 // const tele = window.Telegram?.WebApp
 
@@ -32,7 +33,7 @@ function Home() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Tinder Swipe Cards</h1>
+      <h1 className={styles.header}>Suggestions for you</h1>
       <div className={styles.cardContainer}>
         {suggestions.map((item: Item, index: number) => (
           <TinderCard
@@ -41,16 +42,16 @@ function Home() {
             flickOnSwipe
             onSwipe={dir => handleSwipe(dir, item)}
           >
-            <div
-              className={styles.card}
-              style={{ backgroundImage: 'url(' + item.url + ')' }}
-            >
+            <Card className={styles.card} key={index} item={item}>
               <h3 className={styles.card__info}>
                 {item.name}, {item.age}
               </h3>
-            </div>
+            </Card>
           </TinderCard>
         ))}
+        <div className={styles.message}>
+          you have reviewed all available suggestions
+        </div>
       </div>
     </div>
   )

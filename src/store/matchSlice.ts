@@ -14,6 +14,9 @@ const matchSlice = createSlice({
     addLiked(state: State, action: PayloadAction<Item>) {
       state.liked.push(action.payload)
     },
+    deleteLiked(state: State, action: PayloadAction<number>) {
+      state.liked = state.liked.filter(l => l.id !== action.payload)
+    },
     setSuggestions(state: State, action: PayloadAction<Item[]>) {
       state.suggestions = action.payload
     },
