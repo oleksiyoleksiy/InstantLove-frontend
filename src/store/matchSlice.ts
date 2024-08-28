@@ -5,7 +5,7 @@ const matchSlice = createSlice({
   name: 'match',
   initialState: <State>{
     suggestions: db,
-    liked: [],
+    liked: []
   },
   reducers: {
     setLiked(state: State, action: PayloadAction<Item[]>) {

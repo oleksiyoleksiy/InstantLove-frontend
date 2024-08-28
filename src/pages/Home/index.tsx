@@ -15,15 +15,9 @@ function Home() {
   const suggestions: Item[] = useSelector((s: RootState) => s.match.suggestions)
   const dispatch: Dispatch = useDispatch()
 
-  // const goToPm = () => {
-  //   if (username) {
-  //     tele.openTelegramLink(`https://t.me/${username}`)
-  //   } else {
-  //     console.error('Username is not available.')
-  //   }
-  // }
-
   const handleSwipe = (direction: string, item: Item) => {
+    console.log(direction, item);
+    
     if (direction === 'right') {
       dispatch(matchActions.addLiked(item))
     }
@@ -39,13 +33,17 @@ function Home() {
           <TinderCard
             className={styles.swipe}
             key={index}
-            flickOnSwipe
             onSwipe={dir => handleSwipe(dir, item)}
+            preventSwipe={['up', 'down']}
           >
             <Card className={styles.card} key={index} item={item}>
-              <h3 className={styles.card__info}>
-                {item.name}, {item.age}
-              </h3>
+              <div className={styles.info}>
+                <div className={styles.info__nameHolder}>
+                  <div className={styles.info__name}>{item.name}</div>
+                  <div className={styles.info__separator}>,</div>
+                </div>
+                <div className={styles.info__age}>{item.age}</div>
+              </div>
             </Card>
           </TinderCard>
         ))}

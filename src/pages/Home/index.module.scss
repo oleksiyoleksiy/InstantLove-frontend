@@ -32,18 +32,6 @@
   justify-content: center;
   text-align: center;
   transition: transform 0.3s ease;
-
-  &__info {
-    user-select: none;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    color: var(--text-100);
-    font-size: 24px;
-    font-weight: 500;
-    padding: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: start;
-  }
 }
 
 .button {
@@ -74,4 +62,27 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.info {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  gap: 10px;
+  font-size: 24px;
+  padding: 20px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  color: var(--text-100);
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 150px;
+  }
+
+  &__nameHolder {
+    display: flex;
+  }
 }

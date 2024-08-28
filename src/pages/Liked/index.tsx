@@ -11,8 +11,8 @@ function Liked() {
   const liked: Item[] = useSelector((s: RootState) => s.match.liked)
   const dispatch: Dispatch = useDispatch()
 
-  const unlike = (id: number) => {
-    dispatch(matchActions.deleteLiked(id))
+  const unlike = (item: Item) => {
+    dispatch(matchActions.deleteLiked(item.id))
   }
 
   return (
@@ -27,7 +27,7 @@ function Liked() {
               </div>
               <div className={styles.info__age}>{item.age}</div>
             </div>
-            <button onClick={() => unlike(item.id)} className={styles.button}>
+            <button onClick={() => unlike(item)} className={styles.button}>
               <HeartbreakFill className={styles.button__icon} />
             </button>
           </div>

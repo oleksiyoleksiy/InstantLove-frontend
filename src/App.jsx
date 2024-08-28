@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import NavigationPanel from './components/NavigationPanel'
 import Liked from './pages/Liked'
+import Matches from './pages/Matches'
 
 const tele = window.Telegram.WebApp
 
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/liked" element={<Liked />} />
+        <Route path="/matches" element={<Matches />} />
       </Routes>
       <NavigationPanel />
     </div>

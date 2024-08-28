@@ -9,5 +9,5 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true
   },
-  "include": ["src", "src/index.d.ts", "src/db.d.ts"]
+  "include": ["src", "src/index.d.ts", "src/db.d.ts", "src/global.d.ts"]
 }
