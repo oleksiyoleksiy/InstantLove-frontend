@@ -7,24 +7,22 @@ import Home from './pages/Home'
 import NavigationPanel from './components/NavigationPanel'
 import Liked from './pages/Liked'
 import Matches from './pages/Matches'
+import Profile from './pages/Profile'
+import MainLayout from './layouts/MainLayout'
+import NewUserLayout from './layouts/NewUserLayout'
 
 const tele = window.Telegram.WebApp
 
 function App() {
   useEffect(() => {
     tele.ready()
-    console.log(tele.initDataUnsafe)
   }, [])
 
   return (
-    <div className={styles.container}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/liked" element={<Liked />} />
-        <Route path="/matches" element={<Matches />} />
-      </Routes>
-      <NavigationPanel />
-    </div>
+    <Routes>
+      <Route path="/*" element={<MainLayout />} />
+      <Route path="/new/*" element={<NewUserLayout />} />
+    </Routes>
   )
 }
 

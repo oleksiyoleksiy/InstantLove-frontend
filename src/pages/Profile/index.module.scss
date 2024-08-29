@@ -1,2 +1,176 @@
 .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.form {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+  &__group {
+    width: 100%;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    border: 1px solid rgba($color: #000000, $alpha: 0.4);
+  }
+
+  &__label {
+    
+    display: flex;
+    width: 100%;
+    justify-items: flex-start;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+}
+
+.imageUploadContainer {
+  overflow: hidden;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  background-color: var(--primary-100);
+  position: relative;
+  transition: 0.3s ease;
+
+  &_active {
+    &:hover {
+      background-color: var(--primary-200);
+
+      .uploadPlaceholder {
+        &__plusIcon {
+          background-color: var(--primary-200);
+        }
+      }
+    }
+  }
+
+  &_disabled {
+    opacity: 0.7;
+    cursor: unset;
+  }
+}
+
+.imageUpload {
+  border-radius: 20px;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.uploadPlaceholder {
+  color: var(--text-100);
+
+  &__iconHolder {
+    position: relative;
+  }
+
+  &__imageIcon {
+    font-size: 40px;
+  }
+
+  &__plusIcon {
+    transition: 0.3s ease;
+    border-radius: 50%;
+    left: 60%;
+    top: 45%;
+    background-color: var(--primary-100);
+    padding: 3px;
+    position: absolute;
+    font-size: 25px;
+  }
+}
+
+.imageListHolder {
+  position: relative;
+}
+
+.imageList {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  max-width: 400px;
+  
+  @media (max-width: 400px) {
+    max-width: 300px;
+    
+  }
+
+  overflow: auto;
+}
+
+.limit {
+  border-radius: 5px;
+  padding: 10px;
+  bottom: 50px;
+  left: 20px;
+  z-index: 10;
+  font-weight: 500;
+}
+
+.imageItem {
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+  min-height: 300px;
+  min-width: 300px;
+}
+
+.removeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--primary-100);
+  transition: 0.3s ease;
+
+  &:hover {
+    background-color: var(--primary-200);
+  }
+
+  &__icon {
+    color: var(--text-100);
+  }
+}
+
+.image {
+  object-fit: cover;
+  width: 300px;
+  height: 300px;
+}
+
+.submitButton {
+  background-color: var(--primary-100);
+  color: var(--text-100);
+  font-weight: bolder;
+  padding: 10px;
+  border-radius: 10px;
+  transition: .3s ease;
+
+  &:hover {
+    background-color: var(--primary-200);
+  }
 }

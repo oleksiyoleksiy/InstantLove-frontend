@@ -14,4 +14,21 @@
   --bg-200: #f5c9d6;
   --bg-300: #cba2ae;
   --bg-400: #f0f0f0;
+  --border-radius: 12px;
+  --transition-speed: 0.3s;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: var(--bg-100);
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--primary-100);
 }
