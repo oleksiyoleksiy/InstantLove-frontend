@@ -3,24 +3,24 @@ import db from '../db'
 
 const matchSlice = createSlice({
   name: 'match',
-  initialState: <State>{
+  initialState: <MatchState>{
     suggestions: db,
-    liked: []
+    liked: [],
   },
   reducers: {
-    setLiked(state: State, action: PayloadAction<Item[]>) {
+    setLiked(state: MatchState, action: PayloadAction<Item[]>) {
       state.liked = action.payload
     },
-    addLiked(state: State, action: PayloadAction<Item>) {
+    addLiked(state: MatchState, action: PayloadAction<Item>) {
       state.liked.push(action.payload)
     },
-    deleteLiked(state: State, action: PayloadAction<number>) {
+    deleteLiked(state: MatchState, action: PayloadAction<number>) {
       state.liked = state.liked.filter(l => l.id !== action.payload)
     },
-    setSuggestions(state: State, action: PayloadAction<Item[]>) {
+    setSuggestions(state: MatchState, action: PayloadAction<Item[]>) {
       state.suggestions = action.payload
     },
-    deleteSuggestion(state: State, action: PayloadAction<number>) {
+    deleteSuggestion(state: MatchState, action: PayloadAction<number>) {
       state.suggestions = state.suggestions.filter(s => s.id !== action.payload)
     },
   },

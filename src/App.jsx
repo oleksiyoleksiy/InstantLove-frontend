@@ -10,7 +10,8 @@ import Matches from './pages/Matches'
 import Profile from './pages/Profile'
 import MainLayout from './layouts/MainLayout'
 import NewUserLayout from './layouts/NewUserLayout'
-
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 const tele = window.Telegram.WebApp
 
 function App() {
@@ -19,10 +20,13 @@ function App() {
   }, [])
 
   return (
-    <Routes>
-      <Route path="/*" element={<MainLayout />} />
-      <Route path="/new/*" element={<NewUserLayout />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/*" element={<MainLayout />} />
+        <Route path="/new/*" element={<NewUserLayout />} />
+      </Routes>
+      <ToastContainer />
+    </>
   )
 }
 

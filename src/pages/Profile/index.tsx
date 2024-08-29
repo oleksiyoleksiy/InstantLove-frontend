@@ -1,23 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.scss'
-import {
-  ImageFill,
-  PlusCircleFill,
-  Trash2Fill,
-  TrashFill,
-} from 'react-bootstrap-icons'
+import { ImageFill, PlusCircleFill, TrashFill } from 'react-bootstrap-icons'
+import { useDispatch } from 'react-redux'
+import { userActions } from '../../store/userSlice'
+import { toast } from 'react-toastify'
+
+interface Error {
+  name?: string
+  age?: string
+  location?: string
+  gender?: string
+  image?: string
+}
+
+type Gender = 'male' | 'female'
+
+interface Profile {
+  name: string
+  age: number
+  gender: Gender
+  images: File[]
+  location: string
+}
 
 function Profile() {
-  const limit: number = 5
-  const minAge: number = 14
+  const limit = 5
+  const minAge = 14
   const [images, setImages] = useState<File[]>([])
-
-  useEffect(() => {
-    console.log(images)
-  }, [images])
+  const [name, setName] = useState<string>('')
+  const [age, setAge] = useState<number | undefined>(undefined)
+  const [location, setLocation] = useState<string>('')
+  const [gender, setGender] = useState<Gender | ''>('') // Початкове значення - порожній рядок
+  const [errors, setErrors] = useState<Error>({})
+  const dispatch = useDispatch()
 
   const addImage = (image: File) => {
-    setImages(prevImages => [...prevImages, image])
+    if (images.length < limit) {
+      setImages(prevImages => [...prevImages, image])
+    }
   }
 
   const removeImage = (index: number) => {
@@ -32,9 +52,45 @@ function Profile() {
     }
   }
 
+  const validateForm = () => {
+    const newErrors: Error = {}
+
+    if (!name) newErrors.name = 'Please fill in the name field.'
+    if (age === undefined) newErrors.age = 'Please fill in the age field.'
+    if (!gender) newErrors.gender = 'Please select your gender.'
+    if (!location) newErrors.location = 'Please fill in the location field.'
+    if (images.length === 0)
+      newErrors.image = 'Please select at least one image.'
+
+    setErrors(newErrors)
+
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (!validateForm()) {
+      Object.values(errors).forEach(error => {
+        if (error) toast.error(error)
+      })
+      return
+    }
+
+    const profile: Profile = {
+      name,
+      age: age as number,
+      gender: gender as Gender, 
+      images,
+      location,
+    }
+
+    dispatch(userActions.setProfile(profile))
+  }
+
   return (
     <div className={styles.container}>
-      <div className={styles.form}>
+      <form onSubmit={handleFormSubmit} className={styles.form}>
         <div className={styles.form__group}>
           <div
             className={`${styles.imageUploadContainer} ${
@@ -53,9 +109,8 @@ function Profile() {
             </div>
             <input
               type="file"
-              required
               disabled={images.length === limit}
-              onChange={e => handleFileChange(e)}
+              onChange={handleFileChange}
               className={styles.imageUpload}
               accept=".png,.jpg,.jpeg"
             />
@@ -76,6 +131,7 @@ function Profile() {
                   className={styles.image}
                 />
                 <button
+                  type="button"
                   onClick={() => removeImage(index)}
                   className={styles.removeButton}
                 >
@@ -87,18 +143,55 @@ function Profile() {
         </div>
         <div className={styles.form__group}>
           <label className={styles.form__label}>Name</label>
-          <input required type="text" className={styles.form__input} placeholder='Name' />
+          <input
+            required
+            onChange={e => setName(e.target.value)}
+            value={name}
+            type="text"
+            className={styles.form__input}
+            placeholder="Name"
+          />
         </div>
         <div className={styles.form__group}>
           <label className={styles.form__label}>Location</label>
-          <input required type="text" className={styles.form__input} placeholder='Location'/>
+          <input
+            required
+            onChange={e => setLocation(e.target.value)}
+            value={location}
+            type="text"
+            className={styles.form__input}
+            placeholder="Location"
+          />
         </div>
         <div className={styles.form__group}>
           <label className={styles.form__label}>Age</label>
-          <input required min={minAge} type="number" className={styles.form__input} placeholder='Age'/>
+          <input
+            required
+            onChange={e => setAge(parseInt(e.target.value) || undefined)}
+            value={age !== undefined ? age : ''}
+            min={minAge}
+            type="number"
+            className={styles.form__input}
+            placeholder="Age"
+          />
         </div>
-            <button type='submit' className={styles.submitButton}>Create</button>
-      </div>
+        <div className={styles.form__group}>
+          <label className={styles.form__label}>Gender</label>
+          <select
+            required
+            value={gender || ''}
+            onChange={e => setGender(e.target.value as Gender)}
+            className={styles.form__input}
+          >
+            <option value="">Your gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <button type="submit" className={styles.submitButton}>
+          Create
+        </button>
+      </form>
     </div>
   )
 }

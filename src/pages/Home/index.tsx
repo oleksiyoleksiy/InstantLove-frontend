@@ -13,7 +13,7 @@ import Card from '../../components/Card'
 function Home() {
   // const username = tele?.initDataUnsafe?.user?.username
   const suggestions: Item[] = useSelector((s: RootState) => s.match.suggestions)
-  const dispatch: Dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const handleSwipe = (direction: string, item: Item) => {
     console.log(direction, item);
