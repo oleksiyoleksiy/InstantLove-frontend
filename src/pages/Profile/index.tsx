@@ -4,6 +4,7 @@ import { ImageFill, PlusCircleFill, TrashFill } from 'react-bootstrap-icons'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../../store/userSlice'
 import { toast } from 'react-toastify'
+import { Gender, Profile as ProfileType } from '../../types'
 
 interface Error {
   name?: string
@@ -13,35 +14,34 @@ interface Error {
   image?: string
 }
 
-type Gender = 'male' | 'female'
-
-interface Profile {
-  name: string
-  age: number
-  gender: Gender
-  images: File[]
-  location: string
-}
-
 function Profile() {
   const limit = 5
   const minAge = 14
-  const [images, setImages] = useState<File[]>([])
+  const [files, setFiles] = useState<File[]>([])
+  const [imageUrls, setImageUrls] = useState<string[]>([])
   const [name, setName] = useState<string>('')
   const [age, setAge] = useState<number | undefined>(undefined)
   const [location, setLocation] = useState<string>('')
-  const [gender, setGender] = useState<Gender | ''>('') // Початкове значення - порожній рядок
+  const [gender, setGender] = useState<Gender | ''>('')
   const [errors, setErrors] = useState<Error>({})
+  const [profile, setProfile] = useState<ProfileType>()
   const dispatch = useDispatch()
 
-  const addImage = (image: File) => {
-    if (images.length < limit) {
-      setImages(prevImages => [...prevImages, image])
+  useEffect(() => {
+    console.log(profile);
+  }, [profile])
+
+  const addImage = (file: File) => {
+    if (files.length < limit) {
+      const newUrl = URL.createObjectURL(file)
+      setFiles(prevFiles => [...prevFiles, file])
+      setImageUrls(prevUrls => [...prevUrls, newUrl])
     }
   }
 
   const removeImage = (index: number) => {
-    setImages(prevImages => prevImages.filter((_, i) => i !== index))
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index))
+    setImageUrls(prevUrls => prevUrls.filter((_, i) => i !== index))
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ function Profile() {
     if (age === undefined) newErrors.age = 'Please fill in the age field.'
     if (!gender) newErrors.gender = 'Please select your gender.'
     if (!location) newErrors.location = 'Please fill in the location field.'
-    if (images.length === 0)
+    if (imageUrls.length === 0)
       newErrors.image = 'Please select at least one image.'
 
     setErrors(newErrors)
@@ -77,14 +77,15 @@ function Profile() {
       return
     }
 
-    const profile: Profile = {
+    const profile: ProfileType = {
       name,
       age: age as number,
-      gender: gender as Gender, 
-      images,
+      gender: gender as Gender,
+      images: imageUrls,
       location,
     }
 
+    setProfile(profile)
     dispatch(userActions.setProfile(profile))
   }
 
@@ -94,7 +95,7 @@ function Profile() {
         <div className={styles.form__group}>
           <div
             className={`${styles.imageUploadContainer} ${
-              images.length === limit
+              files.length === limit
                 ? styles.imageUploadContainer_disabled
                 : styles.imageUploadContainer_active
             }`}
@@ -109,7 +110,7 @@ function Profile() {
             </div>
             <input
               type="file"
-              disabled={images.length === limit}
+              disabled={files.length === limit}
               onChange={handleFileChange}
               className={styles.imageUpload}
               accept=".png,.jpg,.jpeg"
@@ -117,16 +118,16 @@ function Profile() {
           </div>
         </div>
         <div className={styles.imageListHolder}>
-          {images.length > 0 && (
+          {files.length > 0 && (
             <div className={styles.limit}>
-              {images.length}/{limit}
+              {files.length}/{limit}
             </div>
           )}
           <div className={styles.imageList}>
-            {images.map((image, index) => (
+            {imageUrls.map((url, index) => (
               <div key={index} className={styles.imageItem}>
                 <img
-                  src={URL.createObjectURL(image)}
+                  src={url}
                   alt={`Uploaded ${index}`}
                   className={styles.image}
                 />

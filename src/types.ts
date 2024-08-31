@@ -1,4 +1,4 @@
-interface Item {
+export interface Item {
   id: number
   name: string
   age: number
@@ -6,13 +6,13 @@ interface Item {
   is_liked_you: boolean
 }
 
-type Gender = 'male' | 'female'
+export type Gender = 'male' | 'female'
 
-interface Profile {
+export interface Profile {
   name: string
   age: number
   gender: Gender
-  images: File[]
+  images: string[]
   location: string
 }
 
@@ -21,18 +21,8 @@ interface AgeRange {
   min: number
 }
 
-interface Preferences {
+export interface Preferences {
   age: AgeRange
   gender: Gender
   location: string
-}
-
-interface MatchState {
-  suggestions: Item[]
-  liked: Item[]
-}
-
-interface UserState {
-  profile: Profile
-  preferences: Preferences
 }

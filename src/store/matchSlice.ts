@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import db from '../db'
+import { Item } from '../types'
+
+interface MatchState {
+  suggestions: Item[]
+  liked: Item[]
+}
 
 const matchSlice = createSlice({
   name: 'match',

@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './index.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
@@ -6,6 +5,7 @@ import Card from '../../components/Card'
 import { HeartbreakFill } from 'react-bootstrap-icons'
 import { Dispatch } from '@reduxjs/toolkit'
 import { matchActions } from '../../store/matchSlice'
+import { Item } from '../../types'
 
 function Liked() {
   const liked: Item[] = useSelector((s: RootState) => s.match.liked)

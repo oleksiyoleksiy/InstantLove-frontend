@@ -1,24 +1,33 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import styles from './App.module.scss'
-import { Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import NavigationPanel from './components/NavigationPanel'
-import Liked from './pages/Liked'
-import Matches from './pages/Matches'
-import Profile from './pages/Profile'
+import { useEffect } from 'react'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+
 import MainLayout from './layouts/MainLayout'
 import NewUserLayout from './layouts/NewUserLayout'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useSelector } from 'react-redux'
+import { RootState } from './store'
+
 const tele = window.Telegram.WebApp
 
 function App() {
+  const profile = useSelector((s: RootState) => s.user.profile)
+  const navigate = useNavigate()
+
   useEffect(() => {
     tele.ready()
   }, [])
 
+  useEffect(() => {
+    if (isEmpty(profile)) {
+      navigate('/new/profile')
+    }
+  }, [])
+
+  const isEmpty = (obj: object): boolean => {
+    return Object.keys(obj).length === 0
+  }
+  
   return (
     <>
       <Routes>

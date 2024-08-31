@@ -1,10 +1,11 @@
-import React, { useEffect, useState, SetStateAction, Dispatch } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './index.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import Card from '../../components/Card'
 import { EnvelopeHeartFill, HeartbreakFill } from 'react-bootstrap-icons'
 import { matchActions } from '../../store/matchSlice'
+import { Item } from '../../types'
 
 const tele = window.Telegram.WebApp
 

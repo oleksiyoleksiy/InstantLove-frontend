@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
 import TinderCard from 'react-tinder-card'
 import styles from './index.module.scss'
-import db from '../../db'
 import { useDispatch, useSelector } from 'react-redux'
-import { Dispatch } from '@reduxjs/toolkit'
 import { matchActions } from '../../store/matchSlice'
 import { RootState } from '../../store'
 import Card from '../../components/Card'
+import { Item } from '../../types'
 
 // const tele = window.Telegram?.WebApp
 
