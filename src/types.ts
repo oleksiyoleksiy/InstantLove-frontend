@@ -2,11 +2,12 @@ export interface Item {
   id: number
   name: string
   age: number
+  gender: Gender
   url: string
   is_liked_you: boolean
 }
 
-export type Gender = 'male' | 'female'
+export type Gender = 'male' | 'female' | 'all'
 
 export interface Profile {
   name: string
@@ -16,13 +17,13 @@ export interface Profile {
   location: string
 }
 
-interface AgeRange {
+export interface AgeRange {
   max: number
   min: number
 }
 
 export interface Preferences {
-  age: AgeRange
+  age?: number
+  ageRange?: AgeRange
   gender: Gender
-  location: string
 }

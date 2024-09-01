@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.scss'
-import { ImageFill, PlusCircleFill, TrashFill } from 'react-bootstrap-icons'
+import {
+  ImageFill,
+  PersonBoundingBox,
+  PlusCircleFill,
+  TrashFill,
+} from 'react-bootstrap-icons'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../../store/userSlice'
 import { toast } from 'react-toastify'
 import { Gender, Profile as ProfileType } from '../../types'
+import { useNavigate } from 'react-router-dom'
 
 interface Error {
   name?: string
@@ -26,10 +32,7 @@ function Profile() {
   const [errors, setErrors] = useState<Error>({})
   const [profile, setProfile] = useState<ProfileType>()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    console.log(profile);
-  }, [profile])
+  const navigate = useNavigate()
 
   const addImage = (file: File) => {
     if (files.length < limit) {
@@ -87,11 +90,16 @@ function Profile() {
 
     setProfile(profile)
     dispatch(userActions.setProfile(profile))
+    navigate('/new/preferences')
   }
 
   return (
     <div className={styles.container}>
       <form onSubmit={handleFormSubmit} className={styles.form}>
+        <div className={styles.header}>
+          <PersonBoundingBox className={styles.header__icon} />
+          <h1 className={styles.header__title}>your profile</h1>
+        </div>
         <div className={styles.form__group}>
           <div
             className={`${styles.imageUploadContainer} ${
