@@ -57,32 +57,6 @@ function Preferences() {
     }
   }
 
-  // const setMinValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value
-  //   let number = parseInt(value)
-
-  //   if (value.length > 2 || number > ageRange[1]) {
-  //     number = ageRange[1]
-  //   }
-
-  //   setAgeRange([number, ageRange[1]])
-  // }
-
-  // const setMaxValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value
-  //   let number = parseInt(value)
-
-  //   if (number < ageRange[0]) {
-  //     number = ageRange[0]
-  //   }
-
-  //   if (number > maxAge) {
-  //     number = maxAge
-  //   }
-
-  //   setAgeRange([ageRange[0], number])
-  // }
-
   const handleSliderChange = (e: Event, newValue: number | number[]) => {
     setAgeRange(newValue as number[])
   }
@@ -130,7 +104,6 @@ function Preferences() {
                 <input
                   disabled
                   type="number"
-                  // onChange={setMinValue}
                   value={ageRange[0]}
                   min={minAge}
                   max={ageRange[1]}
@@ -139,7 +112,6 @@ function Preferences() {
                 <input
                   disabled
                   type="number"
-                  // onChange={setMaxValue}
                   value={ageRange[1]}
                   max={maxAge}
                   min={ageRange[0]}
@@ -208,7 +180,6 @@ function Preferences() {
               <div className={styles.radio__icon}>
                 all
               </div>
-              {/* <GenderFemale className={styles.radio__icon} /> */}
             </div>
           </div>
         </div>
