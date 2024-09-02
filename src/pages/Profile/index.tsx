@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.scss'
 import {
+  GenderFemale,
+  GenderMale,
   ImageFill,
   PersonBoundingBox,
   PlusCircleFill,
@@ -186,16 +188,38 @@ function Profile() {
         </div>
         <div className={styles.form__group}>
           <label className={styles.form__label}>Gender</label>
-          <select
-            required
-            value={gender || ''}
-            onChange={e => setGender(e.target.value as Gender)}
-            className={styles.form__input}
-          >
-            <option value="">Your gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+          <div className={styles.radio}>
+            <div
+              className={`${styles.radio__holder} ${
+                gender === 'male' ? styles.radio_selected : ''
+              }`}
+            >
+              <input
+                required
+                className={styles.radio__input}
+                onChange={e => setGender(e.target.value as Gender)}
+                type="radio"
+                value="male"
+                name="gender"
+                />
+              <GenderMale className={styles.radio__icon} />
+            </div>
+            <div
+              className={`${styles.radio__holder} ${
+                gender === 'female' ? styles.radio_selected : ''
+              }`}
+              >
+              <input
+                required
+                className={styles.radio__input}
+                onChange={e => setGender(e.target.value as Gender)}
+                type="radio"
+                value="female"
+                name="gender"
+              />
+              <GenderFemale className={styles.radio__icon} />
+            </div>
+          </div>
         </div>
         <button type="submit" className={styles.submitButton}>
           Create

@@ -20,8 +20,9 @@
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  background-color: var(--bg-100);
+  width: 8px;
+  height: 8px;
+  /* background-color: var(--bg-100); */
 }
 
 ::-webkit-scrollbar-track {

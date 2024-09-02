@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
-import { Arrows, SearchHeartFill } from 'react-bootstrap-icons'
+import {
+  Arrows,
+  GenderFemale,
+  GenderMale,
+  SearchHeartFill,
+} from 'react-bootstrap-icons'
 import { useDispatch } from 'react-redux'
 import { Gender, Preferences as PreferencesType } from '../../types'
 import './index.scss'
@@ -52,17 +57,31 @@ function Preferences() {
     }
   }
 
-  const setMinValue = (newValue: number) => {
-    if (newValue >= minAge && newValue <= ageRange[1]) {
-      setAgeRange([newValue, ageRange[1]])
-    }
-  }
+  // const setMinValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value
+  //   let number = parseInt(value)
 
-  const setMaxValue = (newValue: number) => {
-    if (newValue <= maxAge && newValue >= ageRange[0]) {
-      setAgeRange([ageRange[0], newValue])
-    }
-  }
+  //   if (value.length > 2 || number > ageRange[1]) {
+  //     number = ageRange[1]
+  //   }
+
+  //   setAgeRange([number, ageRange[1]])
+  // }
+
+  // const setMaxValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value
+  //   let number = parseInt(value)
+
+  //   if (number < ageRange[0]) {
+  //     number = ageRange[0]
+  //   }
+
+  //   if (number > maxAge) {
+  //     number = maxAge
+  //   }
+
+  //   setAgeRange([ageRange[0], number])
+  // }
 
   const handleSliderChange = (e: Event, newValue: number | number[]) => {
     setAgeRange(newValue as number[])
@@ -70,13 +89,6 @@ function Preferences() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value)
-    setAge(newValue)
-  }
-
-  const handleInputBlur = () => {
-    let newValue = Number(age)
-    if (newValue < minAge) newValue = minAge
-    if (newValue > maxAge) newValue = maxAge
     setAge(newValue)
   }
 
@@ -118,16 +130,16 @@ function Preferences() {
                 <input
                   disabled
                   type="number"
-                  onChange={e => setMinValue(parseInt(e.target.value))}
+                  // onChange={setMinValue}
                   value={ageRange[0]}
                   min={minAge}
                   max={ageRange[1]}
                   className={styles.form__input}
-                  />
+                />
                 <input
                   disabled
                   type="number"
-                  onChange={e => setMaxValue(parseInt(e.target.value))}
+                  // onChange={setMaxValue}
                   value={ageRange[1]}
                   max={maxAge}
                   min={ageRange[0]}
@@ -149,20 +161,59 @@ function Preferences() {
         {errors.gender && <div className={styles.error}>{errors.gender}</div>}
         <div className={styles.form__group}>
           <label className={styles.form__label}>Gender</label>
-          <select
-            required
-            value={gender || ''}
-            onChange={e => setGender(e.target.value as Gender)}
-            className={styles.form__input}
-          >
-            <option value="">Preference gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="all">No preference</option>
-          </select>
+          <div className={styles.radio}>
+            <div
+              className={`${styles.radio__holder} ${
+                gender === 'male' ? styles.radio_selected : ''
+              }`}
+            >
+              <input
+                required
+                className={styles.radio__input}
+                onChange={e => setGender(e.target.value as Gender)}
+                type="radio"
+                value="male"
+                name="gender"
+              />
+              <GenderMale className={styles.radio__icon} />
+            </div>
+            <div
+              className={`${styles.radio__holder} ${
+                gender === 'female' ? styles.radio_selected : ''
+              }`}
+            >
+              <input
+                required
+                className={styles.radio__input}
+                onChange={e => setGender(e.target.value as Gender)}
+                type="radio"
+                value="female"
+                name="gender"
+              />
+              <GenderFemale className={styles.radio__icon} />
+            </div>
+            <div
+              className={`${styles.radio__holder} ${
+                gender === 'all' ? styles.radio_selected : ''
+              }`}
+            >
+              <input
+                required
+                className={styles.radio__input}
+                onChange={e => setGender(e.target.value as Gender)}
+                type="radio"
+                value="all"
+                name="gender"
+              />
+              <div className={styles.radio__icon}>
+                all
+              </div>
+              {/* <GenderFemale className={styles.radio__icon} /> */}
+            </div>
+          </div>
         </div>
         <button type="submit" className={styles.submitButton}>
-          Create
+          Save
         </button>
       </form>
     </div>

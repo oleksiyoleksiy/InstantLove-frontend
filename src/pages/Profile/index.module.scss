@@ -112,6 +112,7 @@
 }
 
 .imageList {
+  padding: 10px 0;
   position: relative;
   display: flex;
   gap: 10px;
@@ -194,4 +195,35 @@
     font-size: 24px;
     font-weight: bold;
   }
+}
+
+.radio {
+  display: flex;
+  gap: 10px;
+
+  &__holder {
+    transition: 0.3s ease;
+    padding: 20px;
+    background-color: var(--primary-100);
+    position: relative;
+    border-radius: 10px;
+  }
+
+  &__icon {
+    font-size: 30px;
+    color: var(--text-100);
+  }
+
+  &__input {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.radio_selected {
+  background-color: var(--primary-200);
 }
