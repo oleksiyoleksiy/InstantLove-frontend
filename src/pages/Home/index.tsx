@@ -31,9 +31,10 @@ function Home() {
         suggestions.filter(s =>
           preferences.ageRange
             ? s.age <= preferences.ageRange.max &&
-              s.age >= preferences.ageRange.min &&
+              s.age >= preferences.ageRange.min
+            : s.age === preferences.age &&
+              preferences.gender !== 'all' &&
               s.gender === preferences.gender
-            : s.age === preferences.age && s.gender === preferences.gender
         )
       )
     }

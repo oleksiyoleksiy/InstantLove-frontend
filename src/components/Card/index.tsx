@@ -1,5 +1,6 @@
-import React, { FC, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import styles from './index.module.scss'
+import { Item } from '../../types'
 
 interface Props {
   item: Item

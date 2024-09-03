@@ -27,3 +27,11 @@ export interface Preferences {
   ageRange?: AgeRange
   gender: Gender
 }
+
+export interface ProfileError {
+  name?: string
+  age?: string
+  location?: string
+  gender?: string
+  image?: string
+}
