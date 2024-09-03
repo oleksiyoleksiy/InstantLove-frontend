@@ -67,14 +67,14 @@
 }
 
 .imageList {
-  padding: 10px 0;
+  padding: 10px;
   position: relative;
   display: flex;
   gap: 10px;
   max-width: 400px;
 
   @media (max-width: 400px) {
-    max-width: 300px;
+    max-width: 280px;
   }
 
   overflow: auto;
@@ -93,8 +93,14 @@
   overflow: hidden;
   border-radius: 20px;
   position: relative;
-  min-height: 300px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   min-width: 300px;
+  min-height: 300px;
+
+  @media (max-width: 500px) {
+    min-height: 200px;
+    min-width: 200px;
+  }
 }
 
 .removeButton {

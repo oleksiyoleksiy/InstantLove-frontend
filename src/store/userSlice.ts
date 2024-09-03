@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Preferences, Profile } from '../types'
 
 interface UserState {
-  profile: Profile
+  profile: Profile | null
   preferences: Preferences | null
 }
 
@@ -10,7 +10,7 @@ interface UserState {
 const userSlice = createSlice({
   name: 'user',
   initialState: <UserState>{
-    profile: {},
+    profile: null,
     preferences: null,
   },
   reducers: {

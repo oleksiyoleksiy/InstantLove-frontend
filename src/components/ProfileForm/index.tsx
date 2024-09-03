@@ -22,6 +22,7 @@ interface Props {
   setGender: (gender: Gender | '') => void
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   errors: ProfileError
+  submitButtonText: string
 }
 
 function ProfileForm({
@@ -39,6 +40,7 @@ function ProfileForm({
   setGender,
   onSubmit,
   errors,
+  submitButtonText
 }: Props) {
   const minAge = 14
   const limit = 5
@@ -120,7 +122,7 @@ function ProfileForm({
       />
       {errors?.gender && <div className={styles.error}>{errors.gender}</div>}
       <button type="submit" className={styles.submitButton}>
-        Create
+        {submitButtonText}
       </button>
       {errors?.image && <div className={styles.error}>{errors.image}</div>}
     </form>

@@ -6,9 +6,15 @@
   height: 100vh;
   background-color: var(--bg-400);
   overflow: hidden;
+  gap: 10px;
 }
 
-.header {
+.link {
+  &__icon {
+  }
+}
+
+.title {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -85,5 +91,27 @@
 
   &__nameHolder {
     display: flex;
+  }
+}
+
+.header {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.link {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: var(--primary-100);
+  transition: 0.3s ease;
+
+  &:hover {
+    background-color: var(--primary-200);
+  }
+
+  &__icon {
+    font-size: 24px;
+    color: var(--text-100);
   }
 }

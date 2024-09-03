@@ -20,6 +20,7 @@ interface Props {
   age: number
   ageRange: number[]
   isRange: boolean
+  submitButtonText: string
 }
 
 function PreferencesForm({
@@ -32,6 +33,7 @@ function PreferencesForm({
   age,
   ageRange,
   isRange,
+  submitButtonText,
 }: Props) {
   const minAge = 14
   const maxAge = 40
@@ -46,7 +48,7 @@ function PreferencesForm({
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    
+
     if (validateForm()) {
       onFormSubmit(e)
     }
@@ -75,7 +77,7 @@ function PreferencesForm({
         genderList={['male', 'female', 'all']}
       />
       <button type="submit" className={styles.submitButton}>
-        Save
+        {submitButtonText}
       </button>
     </form>
   )

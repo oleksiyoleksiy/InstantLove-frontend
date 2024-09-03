@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import styles from './index.module.scss'
 import { userActions } from '../../store/userSlice'
 import { Gender, ProfileError, Profile as ProfileType } from '../../types'
 import ProfileForm from '../../components/ProfileForm'
+import Modal from '../../components/Modal'
+import { RootState } from '../../store'
 
-function Profile() {
-  const minAge = 14
-  const limit = 5
+function UpdateProfile() {
   const [files, setFiles] = useState<File[]>([])
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [name, setName] = useState<string>('')
@@ -19,10 +18,16 @@ function Profile() {
   const [errors, setErrors] = useState<ProfileError>({})
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const profile = useSelector((s: RootState) => s.user.profile)
 
   useEffect(() => {
-    console.log(12);
-    
+    if (profile) {
+      setName(profile.name)
+      setAge(profile.age)
+      setLocation(profile.location)
+      setGender(profile.gender)
+      setImageUrls(profile.images)
+    }
   }, [])
 
   const validateForm = () => {
@@ -59,11 +64,11 @@ function Profile() {
     }
 
     dispatch(userActions.setProfile(profile))
-    navigate('/new/preferences')
+    navigate('/')
   }
 
   return (
-    <div className={styles.container}>
+    <Modal>
       <ProfileForm
         files={files}
         imageUrls={imageUrls}
@@ -71,18 +76,18 @@ function Profile() {
         age={age}
         location={location}
         gender={gender}
+        errors={errors}
         setFiles={setFiles}
         setImageUrls={setImageUrls}
         setName={setName}
         setAge={setAge}
         setLocation={setLocation}
         setGender={setGender}
-        errors={errors}
         onSubmit={handleFormSubmit}
-        submitButtonText='create'
+        submitButtonText="update"
       />
-    </div>
+    </Modal>
   )
 }
 
-export default Profile
+export default UpdateProfile

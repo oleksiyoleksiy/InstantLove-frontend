@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Gender, Preferences as PreferencesType } from '../../types'
 import { userActions } from '../../store/userSlice'
-import styles from './index.module.scss'
 import PreferencesForm from '../../components/PreferncesForm'
+import Modal from '../../components/Modal'
+import { RootState } from '../../store'
 
-function Preferences() {
+function UpdatePreferences() {
   const [isRange, setIsRange] = useState<boolean>(false)
   const [ageRange, setAgeRange] = useState<number[]>([18, 40])
   const [age, setAge] = useState<number>(18)
   const [gender, setGender] = useState<Gender | ''>('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const preferences = useSelector((s: RootState) => s.user.preferences)
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -28,8 +30,20 @@ function Preferences() {
     navigate('/')
   }
 
+  useEffect(() => {
+    if (preferences) {
+      setGender(preferences.gender || '')
+      if (preferences.age !== undefined) {
+        setAge(preferences.age)
+      } else if (preferences.ageRange) {
+        setAgeRange([preferences.ageRange.min, preferences.ageRange.max])
+        setIsRange(true)
+      }
+    }
+  }, [preferences])
+
   return (
-    <div className={styles.container}>
+    <Modal>
       <PreferencesForm
         gender={gender}
         age={age}
@@ -40,10 +54,10 @@ function Preferences() {
         setAge={setAge}
         setGender={setGender}
         onFormSubmit={handleFormSubmit}
-        submitButtonText='save'
+        submitButtonText='update'
       />
-    </div>
+    </Modal>
   )
 }
 
-export default Preferences
+export default UpdatePreferences

@@ -33,6 +33,7 @@ function GenderSelector({ selectedGender, genderList, setGender }: Props) {
           >
             <input
               required
+              checked={item === selectedGender}
               className={styles.radio__input}
               onChange={e => setGender(e.target.value as Gender)}
               type="radio"

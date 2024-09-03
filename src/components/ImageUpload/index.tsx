@@ -49,7 +49,7 @@ function ImageUpload({
           </div>
         )}
         <div className={styles.imageList}>
-          {imageUrls.map((url, index) => (
+          {imageUrls && imageUrls.map((url, index) => (
             <div key={index} className={styles.imageItem}>
               <img
                 src={url}
