@@ -1,3 +1,5 @@
+import { InitDataUnsafe } from "./types"
+
 export {}
 
 declare global {
@@ -6,6 +8,7 @@ declare global {
       WebApp: {
         ready: () => void
         openTelegramLink: (url: string) => void
+        initDataUnsafe: InitDataUnsafe
       }
     }
   }

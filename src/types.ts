@@ -35,3 +35,28 @@ export interface ProfileError {
   gender?: string
   image?: string
 }
+
+export interface Token {
+  accessToken: string
+  refreshToken: string
+}
+
+export interface InitDataUnsafe {
+  auth_date: string
+  hash: string
+  query_id: string
+  user: {
+    id: string,
+    first_name?: string
+    last_name?: string
+  }
+}
+
+export interface LoginData {
+  telegram_id: string
+  password: string
+}
+
+export interface RegisterData extends LoginData {
+  password_confirmation: string
+} 

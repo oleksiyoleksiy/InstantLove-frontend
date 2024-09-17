@@ -71,12 +71,7 @@
   position: relative;
   display: flex;
   gap: 10px;
-  max-width: 400px;
-
-  @media (max-width: 400px) {
-    max-width: 280px;
-  }
-
+  max-width: 300px;
   overflow: auto;
 }
 

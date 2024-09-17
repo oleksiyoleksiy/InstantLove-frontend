@@ -58,7 +58,7 @@ function Home() {
             <SearchHeartFill className={styles.link__icon} />
           </Link>
         </div>
-        <h1 className={styles.title}>Suggestions for you</h1>
+        {/* <h1 className={styles.title}>Suggestions for you</h1> */}
         <div className={styles.cardContainer}>
           {preferencedSuggestions.map((item: Item, index: number) => (
             <TinderCard

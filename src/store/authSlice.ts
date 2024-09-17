@@ -1,39 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction } from '@reduxjs/toolkit'
+import { Token } from '../types'
 
-// const initialLanguage = localStorage.getItem('lang') ?? 'en'
+interface AuthState {
+  accessToken: string | null
+  refreshToken: string | null
+}
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    // user: null,
-    // language: initialLanguage,
-    // token: localStorage.getItem('accessToken'),
-    // refreshToken: localStorage.getItem('refreshToken'),
+  initialState: <AuthState>{
+    accessToken: localStorage.getItem('accessToken'),
+    refreshToken: localStorage.getItem('refreshToken'),
   },
   reducers: {
-    // setUser(state, action) {
-    //   state.user = action.payload
-    // },
-    // setLanguage(state, action) {
-    //   state.language = action.payload
-    //   localStorage.setItem('lang', action.payload)
-    // },
-    // setToken(state, action) {
-    //   state.token = action.payload.accessToken
-    //   state.refreshToken = action.payload.refreshToken
-    //   localStorage.setItem('accessToken', state.token)
-    //   localStorage.setItem('refreshToken', state.refreshToken)
-    // },
-    // logout(state) {
-    //   state.user = null
-    //   state.token = null
-    //   state.refreshToken = null
-    //   localStorage.removeItem('accessToken')
-    //   localStorage.removeItem('refreshToken')
-    // },
+    setToken(state, action: PayloadAction<Token>) {
+      const payload = action.payload
+      state.accessToken = payload.accessToken
+      state.refreshToken = payload.refreshToken
+      localStorage.setItem('accessToken', payload.accessToken)
+      localStorage.setItem('refreshToken', payload.refreshToken)
+    },
   },
 })
 
 export const authActions = authSlice.actions
 
-export default authSlice
+export default authSlice.reducer

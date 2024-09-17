@@ -20,35 +20,30 @@ function Profile() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log(12);
-    
-  }, [])
+  // const validateForm = () => {
+  //   const newErrors: ProfileError = {}
 
-  const validateForm = () => {
-    const newErrors: ProfileError = {}
+  //   if (!name) newErrors.name = 'Please fill in the name field.'
+  //   if (age === undefined) newErrors.age = 'Please fill in the age field.'
+  //   if (!gender) newErrors.gender = 'Please select your gender.'
+  //   if (!location) newErrors.location = 'Please fill in the location field.'
+  //   if (imageUrls.length === 0)
+  //     newErrors.image = 'Please select at least one image.'
 
-    if (!name) newErrors.name = 'Please fill in the name field.'
-    if (age === undefined) newErrors.age = 'Please fill in the age field.'
-    if (!gender) newErrors.gender = 'Please select your gender.'
-    if (!location) newErrors.location = 'Please fill in the location field.'
-    if (imageUrls.length === 0)
-      newErrors.image = 'Please select at least one image.'
+  //   setErrors(newErrors)
 
-    setErrors(newErrors)
-
-    return Object.keys(newErrors).length === 0
-  }
+  //   return Object.keys(newErrors).length === 0
+  // }
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!validateForm()) {
-      Object.values(errors).forEach(error => {
-        if (error) toast.error(error)
-      })
-      return
-    }
+    // if (!validateForm()) {
+    //   Object.values(errors).forEach(error => {
+    //     if (error) toast.error(error)
+    //   })
+    //   return
+    // }
 
     const profile: ProfileType = {
       name,
@@ -79,7 +74,7 @@ function Profile() {
         setGender={setGender}
         errors={errors}
         onSubmit={handleFormSubmit}
-        submitButtonText='create'
+        submitButtonText="create"
       />
     </div>
   )
