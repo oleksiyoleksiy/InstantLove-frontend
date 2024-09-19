@@ -5,8 +5,6 @@ import ImageUpload from '../../components/ImageUpload'
 import GenderSelector from '../../components/GenderSelector'
 import { Gender, ProfileError } from '../../types'
 
-
-
 interface Props {
   files: File[]
   imageUrls: string[]
@@ -40,30 +38,21 @@ function ProfileForm({
   setGender,
   onSubmit,
   errors,
-  submitButtonText
+  submitButtonText,
 }: Props) {
   const minAge = 14
   const limit = 5
 
-  const addImage = (file: File) => {
-    if (files.length < limit) {
-      const newUrl = URL.createObjectURL(file)
-      setFiles([...files, file])
-      setImageUrls([...imageUrls, newUrl])
-    }
+  const addImages = (newFiles: File[]) => {
+    const totalFiles = [...files, ...newFiles].slice(0, limit)
+    const newUrls = totalFiles.map(file => URL.createObjectURL(file))
+    setFiles(totalFiles)
+    setImageUrls(newUrls)
   }
 
   const removeImage = (index: number) => {
     setFiles(files.filter((_, i) => i !== index))
     setImageUrls(imageUrls.filter((_, i) => i !== index))
-  }
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      addImage(file)
-      e.target.value = ''
-    }
   }
 
   return (
@@ -72,13 +61,7 @@ function ProfileForm({
         <PersonBoundingBox className={styles.header__icon} />
         <h1 className={styles.header__title}>Your Profile</h1>
       </div>
-      <ImageUpload
-        files={files}
-        imageUrls={imageUrls}
-        limit={limit}
-        onFileChange={handleFileChange}
-        onRemoveImage={removeImage}
-      />
+      <ImageUpload limit={limit} onFileChange={addImages} />
       <div className={styles.form__group}>
         <label className={styles.form__label}>Name</label>
         <input

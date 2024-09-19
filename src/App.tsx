@@ -10,9 +10,11 @@ import { RootState } from './store'
 import accountService from './services/accountService'
 import { authActions } from './store/authSlice'
 import Loader from './components/Loader'
-import { AuthData } from './types'
+import { AuthData, Profile } from './types'
+import profileService from './services/profileService'
+import { userActions } from './store/userSlice'
 
-const tele = window.Telegram.WebApp
+// const tele = window.Telegram.WebApp
 
 function App() {
   const dispatch = useDispatch()
@@ -22,30 +24,51 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    tele.ready()
+    // tele.ready()
     isUserExists()
   }, [])
 
-  useEffect(() => {
-    console.log(token)
+  useEffect(() => {    
+    if (token) {            
+      fetchProfile()
+    }
   }, [token])
 
-  useEffect(() => {
-    if (isLoaded) {
-      navigate('/')
-    }
-  }, [isLoaded])
+  // useEffect(() => {
+  //   if (isLoaded) {
+  //     navigate('/')
+  //   }
+  // }, [isLoaded])
 
   const isUserExists = async () => {
-    // const telegramId = tele.initDataUnsafe.user.id
-    const telegramId = '232323'
+    const telegramId = import.meta.env.VITE_TELEGRAM_ID
 
     const response = await accountService.isUserExists(telegramId)
 
-    if (response) {
-      navigate('')
-    } 
+    if (!response && !token) {
+      navigate('/new/register')
+    }
 
+    if (response && !token) {
+      navigate('/new/login')
+    }
+
+    setLoaded(true)
+  }
+
+  const fetchProfile = async () => {
+    setLoaded(false)
+    const response = await profileService.index(token as string)
+    
+    if (!response) {
+      navigate('/new/profile')
+      setLoaded(true)
+      return
+    }
+    
+    dispatch(userActions.setProfile(response as Profile))
+    
+    navigate('/')
     setLoaded(true)
   }
 

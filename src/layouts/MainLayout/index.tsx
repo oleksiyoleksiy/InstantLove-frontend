@@ -9,14 +9,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 
 function MainLayout() {
-  const profile = useSelector((s: RootState) => s.user.profile)
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!profile) {
-      navigate('/new/profile')
-    }
-  }, [])
+  // const profile = useSelector((s: RootState) => s.user.profile)
+  // const navigate = useNavigate()
 
   return (
     <div className={styles.container}>

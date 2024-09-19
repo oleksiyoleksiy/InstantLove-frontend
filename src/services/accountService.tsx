@@ -21,9 +21,13 @@ const accountService: AccountService = {
   },
   register: async data => {
     try {
-      const response = await axiosInstance.post<Token>('/login', data)
+      console.log('l')
+
+      const response = await axiosInstance.post<Token>('/register', data)
       return response.data
     } catch (e: any) {
+      console.log(e)
+
       if (e.response && e.response.data) {
         console.log(e.response.data)
       }
