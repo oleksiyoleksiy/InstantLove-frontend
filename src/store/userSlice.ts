@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Preferences, Profile } from '../types'
+import { Preferences, Profile, ProfileData } from '../types'
 
 interface UserState {
-  profile: Profile | null
+  profile: Profile | undefined
   preferences: Preferences | null
 }
 
@@ -10,7 +10,7 @@ interface UserState {
 const userSlice = createSlice({
   name: 'user',
   initialState: <UserState>{
-    profile: null,
+    profile: undefined,
     preferences: null,
   },
   reducers: {

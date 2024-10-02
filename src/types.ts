@@ -10,10 +10,19 @@ export interface Item {
 export type Gender = 'male' | 'female' | 'all'
 
 export interface Profile {
+  id: number
   name: string
   age: number
   gender: Gender
-  images: string[]
+  images: Image[]
+  location: string
+}
+
+export interface ProfileData {
+  name: string
+  age: number
+  gender: Gender
+  images: File[]
   location: string
 }
 
@@ -46,7 +55,7 @@ export interface InitDataUnsafe {
   hash: string
   query_id: string
   user: {
-    id: string,
+    id: string
     first_name?: string
     last_name?: string
   }
@@ -59,4 +68,9 @@ export interface LoginData {
 
 export interface RegisterData extends LoginData {
   password_confirmation: string
-} 
+}
+
+export interface Image {
+  id: number
+  path: string
+}

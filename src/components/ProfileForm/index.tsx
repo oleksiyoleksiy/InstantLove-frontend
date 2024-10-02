@@ -7,53 +7,39 @@ import { Gender, ProfileError } from '../../types'
 
 interface Props {
   files: File[]
-  imageUrls: string[]
   name: string
   age: number | undefined
   location: string
   gender: Gender | ''
   setFiles: (files: File[]) => void
-  setImageUrls: (imageUrls: string[]) => void
   setName: (name: string) => void
   setAge: (age: number | undefined) => void
   setLocation: (location: string) => void
   setGender: (gender: Gender | '') => void
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+  onImageRemove: (index: number) => void
   errors: ProfileError
   submitButtonText: string
 }
 
 function ProfileForm({
   files,
-  imageUrls,
   name,
   age,
   location,
   gender,
   setFiles,
-  setImageUrls,
   setName,
   setAge,
   setLocation,
   setGender,
   onSubmit,
+  onImageRemove,
   errors,
   submitButtonText,
 }: Props) {
   const minAge = 14
   const limit = 5
-
-  const addImages = (newFiles: File[]) => {
-    const totalFiles = [...files, ...newFiles].slice(0, limit)
-    const newUrls = totalFiles.map(file => URL.createObjectURL(file))
-    setFiles(totalFiles)
-    setImageUrls(newUrls)
-  }
-
-  const removeImage = (index: number) => {
-    setFiles(files.filter((_, i) => i !== index))
-    setImageUrls(imageUrls.filter((_, i) => i !== index))
-  }
 
   return (
     <form onSubmit={onSubmit} className={styles.form}>
@@ -61,7 +47,14 @@ function ProfileForm({
         <PersonBoundingBox className={styles.header__icon} />
         <h1 className={styles.header__title}>Your Profile</h1>
       </div>
-      <ImageUpload limit={limit} onFileChange={addImages} />
+
+      <ImageUpload
+        files={files}
+        limit={limit}
+        onFileChange={setFiles}
+        onImageRemove={onImageRemove}
+      />
+
       <div className={styles.form__group}>
         <label className={styles.form__label}>Name</label>
         <input
@@ -73,6 +66,7 @@ function ProfileForm({
         />
         {errors?.name && <div className={styles.error}>{errors.name}</div>}
       </div>
+
       <div className={styles.form__group}>
         <label className={styles.form__label}>Location</label>
         <input
@@ -86,6 +80,7 @@ function ProfileForm({
           <div className={styles.error}>{errors.location}</div>
         )}
       </div>
+
       <div className={styles.form__group}>
         <label className={styles.form__label}>Age</label>
         <input
@@ -98,12 +93,14 @@ function ProfileForm({
         />
         {errors?.age && <div className={styles.error}>{errors.age}</div>}
       </div>
+
       <GenderSelector
         selectedGender={gender}
-        genderList={['male', 'female']}
         setGender={setGender}
+        genderList={['male', 'female']}
       />
       {errors?.gender && <div className={styles.error}>{errors.gender}</div>}
+
       <button type="submit" className={styles.submitButton}>
         {submitButtonText}
       </button>

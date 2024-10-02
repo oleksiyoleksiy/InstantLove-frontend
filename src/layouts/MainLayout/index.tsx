@@ -4,9 +4,6 @@ import Home from '../../pages/Home'
 import Liked from '../../pages/Liked'
 import Matches from '../../pages/Matches'
 import NavigationPanel from '../../components/NavigationPanel'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
 
 function MainLayout() {
   // const profile = useSelector((s: RootState) => s.user.profile)

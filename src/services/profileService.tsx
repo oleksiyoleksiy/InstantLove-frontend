@@ -1,28 +1,20 @@
 import axiosInstance from '../api/axiosInstance'
-import { Profile } from '../types'
-
-interface ProfileResponse {
-  name: string
-  age: number
-  gender: 'male' | 'female'
-  location: string
-  images: string[]
-}
+import { Gender, Profile, ProfileData } from '../types'
 
 interface ProfileService {
-  index: (token: string) => Promise<ProfileResponse | null>
-  store: (token: string, data: Profile) => Promise<ProfileResponse | null>
+  index: (token: string) => Promise<Profile | undefined>
+  store: (token: string, data: ProfileData) => Promise<Profile | undefined>
   update: (
     token: string,
-    data: Profile,
-    profileId: number
-  ) => Promise<ProfileResponse | null>
+    data: object,
+    id: number
+  ) => Promise<Profile | undefined>
 }
 
 const profileService: ProfileService = {
   index: async token => {
     try {
-      const response = await axiosInstance.get<ProfileResponse>('/profile', {
+      const response = await axiosInstance.get<Profile>('/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -32,7 +24,6 @@ const profileService: ProfileService = {
       if (e.response && e.response.data) {
         console.log(e.response.data)
       }
-      return null
     }
   },
   store: async (token, data) => {
@@ -48,28 +39,23 @@ const profileService: ProfileService = {
         formData.append(`images[${index}]`, file)
       })
 
-      const response = await axiosInstance.post<ProfileResponse>(
-        '/profile',
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      )
+      const response = await axiosInstance.post<Profile>('/profile', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
       return response.data
     } catch (e: any) {
       if (e.response && e.response.data) {
         console.log(e.response.data)
       }
-      return null
     }
   },
-  update: async (token, data) => {
+  update: async (token, data, id) => {
     try {
-      const response = await axiosInstance.post<ProfileResponse>(
-        '/profile/update',
+      const response = await axiosInstance.put<Profile>(
+        `/profile/${id}`,
         data,
         {
           headers: {
@@ -82,7 +68,6 @@ const profileService: ProfileService = {
       if (e.response && e.response.data) {
         console.log(e.response.data)
       }
-      return null
     }
   },
 }
