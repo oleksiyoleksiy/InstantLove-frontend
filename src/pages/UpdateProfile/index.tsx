@@ -79,34 +79,33 @@ function UpdateProfile() {
     //   return
     // }
 
-    try {
-      if (profile) {
-        const data = {
-          name: name,
-          location: location,
-          age: age,
-          gender: gender,
-        }
-
-        const response = await profileService.update(
-          token as string,
-          data,
-          profile.id
-        )
-        console.log(response)
-
-        if (response) {
-          dispatch(userActions.setProfile(response))
-          navigate('/')
-        }
+    if (profile && token) {
+      const data = {
+        name: name,
+        location: location,
+        age: age,
+        gender: gender,
       }
-    } catch (e: any) {
-      toast.error(e.response.data.message)
+
+      const response = await profileService.update(token, data, profile.id)
+
+      if (response) {
+        dispatch(userActions.setProfile(response))
+        toast.success('your profile was updated')
+        navigate('/')
+      }
     }
   }
 
   const handleImageRemove = async (index: number) => {
+    
+    
     if (token && profile) {
+      if (profile.images.length === 1) {
+        toast.error('at least one image must be in your profile')
+        return
+      }
+
       const response = await imageService.destroy(token, profile.id, index)
 
       console.log(response)

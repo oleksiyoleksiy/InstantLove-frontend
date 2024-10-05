@@ -7,6 +7,7 @@ import ProfileForm from '../../components/ProfileForm'
 import profileService from '../../services/profileService'
 import { RootState } from '../../store'
 import { ProfileData, ProfileError, Gender } from '../../types'
+import { toast } from 'react-toastify'
 
 function Profile() {
   const [files, setFiles] = useState<File[]>([])
@@ -20,45 +21,31 @@ function Profile() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-      if (!age || !gender || files.length === 0) {
-        setErrors({
-          age: !age ? 'Age is required' : undefined,
-          gender: !gender ? 'Gender is required' : undefined,
-          image:
-            files.length === 0 ? 'At least one image is required' : undefined,
-        })
-        return
+    if (token && age && gender) {
+      const data: ProfileData = {
+        name,
+        age,
+        gender,
+        images: files,
+        location,
       }
 
-      try {
-        if (token) {
-          const data: ProfileData = {
-            name,
-            age,
-            gender,
-            images: files,
-            location,
-          }
+      const response = await profileService.store(token, data)
 
-          const response = await profileService.store(token, data)
-
-          if (response) {
-            dispatch(userActions.setProfile(response))
-            navigate('/new/preferences')
-          }
-        }
-      } catch (error) {
-        // Handle error response
+      if (response) {
+        dispatch(userActions.setProfile(response))
+        navigate('/new/preferences')
       }
     }
+  }
 
-    const handleImageRemove = (index: number) => {
-      const newFiles = files.filter((_, i) => i !== index)
-      setFiles(newFiles)
-    }
+  const handleImageRemove = (index: number) => {
+    const newFiles = files.filter((_, i) => i !== index)
+    setFiles(newFiles)
+  }
 
   return (
     <div className={styles.container}>

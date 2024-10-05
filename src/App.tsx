@@ -13,6 +13,7 @@ import Loader from './components/Loader'
 import { AuthData, Profile } from './types'
 import profileService from './services/profileService'
 import { userActions } from './store/userSlice'
+import preferenceService from './services/preferenceService'
 
 // const tele = window.Telegram.WebApp
 
@@ -58,18 +59,29 @@ function App() {
 
   const fetchProfile = async () => {
     setLoaded(false)
-    const response = await profileService.index(token as string)
-    
-    if (!response) {
-      navigate('/new/profile')
+
+    if (token) {
+      const profile = await profileService.index(token)
+      const preferences = await preferenceService.index(token)
+
+      if (!profile) {
+        navigate('/new/profile')
+        setLoaded(true)
+        return
+      }
+
+      if (!preferences) {
+        navigate('/new/preferences')
+        setLoaded(true)
+        return
+      }
+      
+      dispatch(userActions.setProfile(profile))
+      dispatch(userActions.setPreferences(preferences))
+      
+      navigate('/')
       setLoaded(true)
-      return
     }
-    
-    dispatch(userActions.setProfile(response as Profile))
-    
-    navigate('/')
-    setLoaded(true)
   }
 
   return (

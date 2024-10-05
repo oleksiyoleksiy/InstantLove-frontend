@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Gender, Preferences as PreferencesType } from '../../types'
+import { Gender, PreferencesData } from '../../types'
 import { userActions } from '../../store/userSlice'
 import PreferencesForm from '../../components/PreferncesForm'
 import Modal from '../../components/Modal'
 import { RootState } from '../../store'
+import preferenceService from '../../services/preferenceService'
+import { toast } from 'react-toastify'
 
 function UpdatePreferences() {
   const [isRange, setIsRange] = useState<boolean>(false)
@@ -15,29 +17,65 @@ function UpdatePreferences() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const preferences = useSelector((s: RootState) => s.user.preferences)
+  const token = useSelector((s: RootState) => s.auth.accessToken)
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const preferences: PreferencesType = {
-      gender: gender as Gender,
-      ...(isRange
-        ? { ageRange: { min: ageRange[0], max: ageRange[1] } }
-        : { age }),
-    }
+    if (token && gender && preferences) {
+      const data: PreferencesData = {
+        gender,
+      }
 
-    dispatch(userActions.setPreferences(preferences))
-    navigate('/')
+      if (isRange) {
+        data.min_age = ageRange[0]
+        data.max_age = ageRange[1]
+      } else {
+        data.age = age
+      }
+
+      const response = await preferenceService.update(
+        token,
+        data,
+        preferences.id
+      )
+
+      if (response) {
+        dispatch(userActions.setPreferences(response))
+        toast.success('your preferences was updated')
+        navigate('/')
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (!preferences) {
+      fetchPreferences()
+    }
+  }, [])
+
+  const fetchPreferences = async () => {
+
+    if (token) {
+      const response = await preferenceService.index(token)
+
+      if (response) {
+        dispatch(userActions.setPreferences(response))
+      }
+    }
   }
 
   useEffect(() => {
     if (preferences) {
-      setGender(preferences.gender || '')
-      if (preferences.age !== undefined) {
+      setGender(preferences.gender)
+      setIsRange(!preferences.age)
+
+      if (preferences.age) {
         setAge(preferences.age)
-      } else if (preferences.ageRange) {
-        setAgeRange([preferences.ageRange.min, preferences.ageRange.max])
-        setIsRange(true)
+      }
+
+      if (preferences.min_age && preferences.max_age) {
+        setAgeRange([preferences.min_age, preferences.max_age])
       }
     }
   }, [preferences])
@@ -54,7 +92,7 @@ function UpdatePreferences() {
         setAge={setAge}
         setGender={setGender}
         onFormSubmit={handleFormSubmit}
-        submitButtonText='update'
+        submitButtonText="update"
       />
     </Modal>
   )

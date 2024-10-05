@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Gender, Preferences as PreferencesType } from '../../types'
+import { Gender, PreferencesData } from '../../types'
 import { userActions } from '../../store/userSlice'
 import styles from './index.module.scss'
 import PreferencesForm from '../../components/PreferncesForm'
+import preferenceService from '../../services/preferenceService'
+import { RootState } from '../../store'
+import { toast } from 'react-toastify'
 
 function Preferences() {
   const [isRange, setIsRange] = useState<boolean>(false)
@@ -13,19 +16,30 @@ function Preferences() {
   const [gender, setGender] = useState<Gender | ''>('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const token = useSelector((s: RootState) => s.auth.accessToken)
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const preferences: PreferencesType = {
-      gender: gender as Gender,
-      ...(isRange
-        ? { ageRange: { min: ageRange[0], max: ageRange[1] } }
-        : { age }),
-    }
+    if (token && gender) {
+      const data: PreferencesData = {
+        gender,
+      }
 
-    dispatch(userActions.setPreferences(preferences))
-    navigate('/')
+      if (isRange) {
+        data.min_age = ageRange[0]
+        data.max_age = ageRange[1]
+      } else {
+        data.age = age
+      }
+
+      const response = await preferenceService.store(token, data)
+
+      if (response) {
+        dispatch(userActions.setPreferences(response))
+        navigate('/')
+      }
+    }
   }
 
   return (
@@ -40,7 +54,7 @@ function Preferences() {
         setAge={setAge}
         setGender={setGender}
         onFormSubmit={handleFormSubmit}
-        submitButtonText='save'
+        submitButtonText="save"
       />
     </div>
   )

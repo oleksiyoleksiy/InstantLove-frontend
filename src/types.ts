@@ -32,9 +32,18 @@ export interface AgeRange {
 }
 
 export interface Preferences {
+  id: number
   age?: number
-  ageRange?: AgeRange
-  gender: Gender
+  max_age?: number
+  min_age?: number
+  gender: Gender 
+}
+
+export interface PreferencesData {
+  age?: number
+  max_age?: number
+  min_age?: number
+  gender: Gender 
 }
 
 export interface ProfileError {
