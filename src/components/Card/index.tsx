@@ -1,18 +1,19 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import styles from './index.module.scss'
-import { Item } from '../../types'
+import { Profile } from '../../types'
 
 interface Props {
-  item: Item
+  item: Profile
   className: string
   children?: ReactNode
 }
 
 function Card({ item, className, children }: Props) {
+
   return (
     <div
       className={`${styles.card} ${className}`}
-      style={{ backgroundImage: 'url(' + item.url + ')' }}
+      style={{ backgroundImage: 'url(' + import.meta.env.VITE_IMAGE_ROUTE + item.images[0].path + ')' }}
     >
       {children}
     </div>

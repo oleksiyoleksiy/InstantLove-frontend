@@ -8,6 +8,8 @@ import Modal from '../../components/Modal'
 import { RootState } from '../../store'
 import preferenceService from '../../services/preferenceService'
 import { toast } from 'react-toastify'
+import suggestionService from '../../services/suggestionService'
+import { matchActions } from '../../store/matchSlice'
 
 function UpdatePreferences() {
   const [isRange, setIsRange] = useState<boolean>(false)
@@ -41,7 +43,8 @@ function UpdatePreferences() {
       )
 
       if (response) {
-        dispatch(userActions.setPreferences(response))
+        dispatch(userActions.setPreferences(response.preferences))
+        dispatch(matchActions.setSuggestions(response.suggestions))
         toast.success('your preferences was updated')
         navigate('/')
       }

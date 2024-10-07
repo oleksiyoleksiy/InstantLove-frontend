@@ -1,29 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import db from '../db'
-import { Item } from '../types'
+import { Item, Profile } from '../types'
 
 interface MatchState {
-  suggestions: Item[]
-  liked: Item[]
+  suggestions: Profile[] | undefined
+  liked: Profile[]
 }
 
 const matchSlice = createSlice({
   name: 'match',
   initialState: <MatchState>{
-    suggestions: db,
+    suggestions: undefined,
     liked: [],
   },
   reducers: {
-    setLiked(state: MatchState, action: PayloadAction<Item[]>) {
+    setLiked(state: MatchState, action: PayloadAction<Profile[]>) {
       state.liked = action.payload
     },
-    addLiked(state: MatchState, action: PayloadAction<Item>) {
+    addLiked(state: MatchState, action: PayloadAction<Profile>) {
       state.liked.push(action.payload)
     },
     deleteLiked(state: MatchState, action: PayloadAction<number>) {
       state.liked = state.liked.filter(l => l.id !== action.payload)
     },
-    setSuggestions(state: MatchState, action: PayloadAction<Item[]>) {
+    setSuggestions(state: MatchState, action: PayloadAction<Profile[]>) {
       state.suggestions = action.payload
     },
     deleteSuggestion(state: MatchState, action: PayloadAction<number>) {

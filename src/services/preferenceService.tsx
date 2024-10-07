@@ -1,5 +1,10 @@
 import axiosInstance from '../api/axiosInstance'
-import { Preferences, PreferencesData } from '../types'
+import { Preferences, PreferencesData, Profile } from '../types'
+
+interface Item {
+  preferences: Preferences
+  suggestions: Profile[]
+}
 
 interface PreferenceService {
   index: (token: string) => Promise<Preferences | undefined>
@@ -8,7 +13,7 @@ interface PreferenceService {
     token: string,
     data: PreferencesData,
     id: number
-  ) => Promise<Preferences | undefined>
+  ) => Promise<Item | undefined>
 }
 
 const preferenceService: PreferenceService = {
